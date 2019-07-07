@@ -42,15 +42,37 @@ class ViewController: UIViewController {
         rvc.paramUpdate = self.isUpdate.isOn
         rvc.paramInterval = self.interval.value
         
-        //화면이동
-        self.present(rvc, animated: true)
+        //화면이동.프레젠테이션 방식 button을 이용할경우
+        //self.present(rvc, animated: true)
+        //네비게이션바 버튼을 이용한 화면 이동
+    self.navigationController?.pushViewController(rvc,animated:true)
+        
     }
     
+    @IBAction func onPerformSegue(_ sender: Any) {
+        self.performSegue(withIdentifier: "ManualSubmit", sender: self)
+        NSLog("onperformsegue execute")
+        //세그방식의 값전달은 prepare메소드를 이용
+    }
+    override func prepare(for segue: UIStoryboardSegue,sender: Any?){
+        
+        //목적지 뷰 컨트롤러 인스턴스 읽어오기
+        let dest = segue.destination
+        
+        guard let rvc = dest as? ResultViewController else{
+            return
+        }
+        //값 전달
+        rvc.paramEmail = self.email.text!
+        rvc.paramUpdate = self.isUpdate.isOn
+        rvc.paramInterval = self.interval.value
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-
+    
 }
 
